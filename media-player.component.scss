@@ -1,0 +1,299 @@
+@import "src/assets/scss/mixins/mixins";
+
+.media-player {
+  position: absolute;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: minmax(0, 1fr) 116px;
+  grid-template-areas:
+    "browser"
+    "controls";
+  gap: 8px;
+  @include breakpoint-size(sm) {
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: "browser";
+  }
+}
+.now-playing {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30% minmax(0, 1fr);
+  grid-template-rows: min-content minmax(0, 1fr);
+  gap: 36px;
+  grid-template-areas:
+    "header header"
+    "image-art info";
+  padding: 16px;
+  grid-area: now-playing;
+  display: none;
+  .now-playing-header {
+    grid-area: header;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 64px 1fr;
+    gap: 8px;
+    img {
+      width: 64px;
+      height: 64px;
+    }
+    &::after {
+      content: "";
+      width: 100%;
+      border-bottom: 2px solid var(--accentColor);
+    }
+  }
+
+  .now-playing-image {
+    grid-area: image-art;
+    max-width: 210px;
+    max-height: 210px;
+  }
+}
+.browser {
+  * {
+    font-size: x-large;
+    @include breakpoint-size(md) {
+      font-size: medium;
+    }
+  }
+  position: relative;
+  height: 100%;
+  grid-area: browser;
+  background-color: hsla(var(--list-background-h), var(--list-background-s), calc(var(--list-background-l)), 0.8);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  .browser-header {
+    background-color: hsla(var(--list-background-h), var(--list-background-s), calc(var(--list-background-l) - 10%), 0.6);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .browser-back {
+      align-items: center;
+      justify-content: center;
+    }
+    .browser-header-title {
+      text-align: center;
+      padding-left: 8px;
+    }
+    .browser-header-container {
+      min-width: 48px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      app-spinner {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  .browser-list {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .browser-list-item {
+    position: relative;
+    width: 100%;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-rows: 32px 32px min-content;
+    grid-template-areas:
+      "icon label actions"
+      "icon subtitle actions";
+    align-items: center;
+    min-height: 64px;
+    img {
+      grid-area: icon;
+      width: 64px;
+      height: 64px;
+    }
+    .browser-list-item-title {
+      grid-area: label;
+      padding-left: 8px;
+      text-align: left;
+      word-break: break-word;
+    }
+    .browser-list-item-subtitle {
+      grid-area: subtitle;
+      padding-left: 16px;
+      font-size: smaller;
+      text-align: left;
+      word-break: break-word;
+    }
+    hr {
+      grid-row: 3;
+      grid-column: 1 / 4;
+      margin: 4px 4px 0 0;
+      opacity: 0.2;
+    }
+  }
+
+  .browser-footer {
+    background-color: hsla(var(--list-background-h), var(--list-background-s), calc(var(--list-background-l) - 10%), 0.6);
+    display: flex;
+    justify-content: flex-start;
+
+    .browser-action {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      min-height: 48px;
+      min-width: 48px;
+      &:first-child {
+        margin-left: 10px;
+      }
+
+      .browser-action-label {
+        font-size: small;
+        font-weight: 100;
+      }
+    }
+  }
+}
+.player-controls {
+  grid-area: controls;
+  display: grid;
+  column-gap: 12px;
+  grid-template-columns: 92px minmax(0, 1fr) 128px min-content;
+  grid-template-areas: "icon info-stack thumbs-stars transports";
+  align-items: center;
+  border-top: 1px solid var(--accent);
+
+  @include breakpoint-size(md) {
+    display: none;
+  }
+
+  .now-playing-image {
+    grid-area: icon;
+    height: 92px;
+    width: 92px;
+  }
+
+  .info-stack {
+    grid-area: info-stack;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: x-small;
+    color: var(--text-icons);
+
+    .now-playing-badge-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      img {
+        height: 24px;
+      }
+    }
+    .info-title {
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+    }
+    .info-progress {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .transports,
+  .thumbs-stars {
+    grid-area: transports;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      min-width: 48px;
+      min-height: 48px;
+    }
+  }
+
+  .transports {
+    display: grid;
+    //grid-template-columns: 48px 48px 55px 48px 48px;
+    grid-template-columns: min-content min-content min-content min-content min-content;
+    .transports-shuffle {
+      grid-column: 1;
+    }
+    .transports-skipprev {
+      grid-column: 2;
+    }
+    .transports-playpause {
+      grid-column: 3;
+    }
+    .transports-skipnext {
+      grid-column: 4;
+    }
+    .transports-repeat {
+      grid-column: 5;
+    }
+  }
+
+  .thumbs-stars {
+    grid-area: thumbs-stars;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .progress {
+    display: grid;
+    grid-template-areas: "tracks";
+    width: 100%;
+    progress,
+    input {
+      grid-area: tracks;
+    }
+  }
+}
+
+.large-button {
+  i {
+    font-size: 4em;
+  }
+}
+
+.glow {
+  color: var(--accent);
+}
+
+i {
+  font-size: x-large;
+  @include breakpoint-size(md) {
+    font-size: large;
+  }
+}
+
+.message-window {
+  position: absolute;
+  width: 100%;
+  height: 75%;
+  background-color: var(--list-background);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: xx-large;
+  @include breakpoint-size(md) {
+    font-size: medium;
+  }
+
+  app-spinner {
+    width: 60px;
+    height: 60px;
+  }
+}

@@ -1,0 +1,20 @@
+<section class="popup-overlay" [ngClass]="popupOverlayClass"></section>
+
+<section class="popup" [ngClass]="popupClass">
+  <!-- header -->
+  <h3 class="popup-header">{{ popupBox?.title }}</h3>
+
+  <label class="popup-message">{{ popupBox?.text }}</label>
+  <!-- input field -->
+  <div class="inputbox" *ngIf="popupBox?.userInputRequired != 'confirmation'">
+    <input #input type="text" required spellcheck="false" (keyup)="inputChange($event)" />    
+    <span class="underline"></span>
+  </div>  
+
+  <!-- buttons -->
+  <div class="popup-buttons">
+    <button *ngFor="let button of popupBox?.textForItems; let i = index" [ngClass]="{ default: i == 0, negative: button == 'Cancel' }" (click)="click(i)">
+      <span>{{ button }}</span>
+    </button>
+  </div>
+</section>

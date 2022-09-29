@@ -1,0 +1,115 @@
+// @import "src/assets/scss/popup.scss";
+
+// .popup {
+//   position: absolute;
+//   display: grid;
+//   grid-template-rows: min-content minmax(0, 1fr) min-content;
+//   min-width: 60%;
+//   top: 50%;
+//   left: 50%;
+//   padding: 32px;
+//   background-color: darken(rgb(73, 73, 73), 30%);
+//   transition: transform 0.5s ease;
+//   transform: translate(-50%, 101vh);
+//   z-index: 2;
+// }
+// .popup-overlay {
+//   display: block;
+//   position: absolute;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+//   top: 0;
+//   background-color: rgba(0, 0, 0, 0);
+//   transition: background-color 0.5s ease;
+//   z-index: -100;
+// }
+// .display {
+//   display: block;
+//   background-color: rgba(0, 0, 0, 0.8);
+//   z-index: 1;
+// }
+.popup-message {
+  padding: 8px;
+  font-size: large;
+}
+// .popup-header {
+//   margin: -20px 0 0 -20px;
+// }
+
+// .popup-add {
+//   transform: translate(-50%, -50%);
+// }
+
+// .popup-buttons {
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+//   button {
+//     box-shadow: 0px 10px 14px -7px darken(rgb(1, 186, 154), 20%);
+//     background-color: var(--accent);
+//     border-radius: 4px;
+//     border: 1px solid darken(rgb(1, 186, 154), 10%);
+//     cursor: pointer;
+//     color: var(--text-icons);
+//     margin: 12px 0 0 12px;
+//     min-width: 64px;
+//   }
+//   .default {
+//     box-shadow: 0px 10px 14px -7px hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 20%));
+//     background-color: hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) + 10%));
+//     border: 1px solid var(--primary);
+//   }
+// }
+@import "src/assets/scss/popup.scss";
+
+.popup {
+  min-width: 60%;
+}
+
+.popup-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  button {
+    font-size: large;
+    font-weight: 600;
+    box-shadow: 0px 10px 14px -7px hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 20%));
+    background-color: var(--accent);
+    border-radius: 4px;
+    border: 1px solid hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 10%));
+    cursor: pointer;
+    color: var(--text-icons);
+    margin: 12px 0 0 12px;
+    min-width: 96px;
+    height: 100%;
+    padding: 16px;
+    transition: transform 0.2s ease-in-out;
+    //transition: box-shadow 0.2s ease-in-out;
+
+    &:active {
+      transform: translate(2px, 2px);
+    }
+  }
+  .default {
+    box-shadow: 0px 10px 14px -7px hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 20%));
+    background-color: hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 10%));
+    border: 1px solid var(--accent);
+
+    color: hsl(var(--accent-h), calc(var(--accent-s) * -1), calc(var(--accent-l)));
+
+    &:active {
+      box-shadow: 0px 5px 7px -7px hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 20%));
+    }
+  }
+  .negative {
+    box-shadow: 0px 10px 14px -7px hsl(var(--negative-h), var(--negative-s), calc(var(--negative-l) - 20%));
+    background-color: hsl(var(--negative-h), var(--negative-s), calc(var(--negative-l) + 10%));
+    border: 1px solid var(--negative);
+
+    &:active {
+      box-shadow: 0px 5px 14px -7px hsl(var(--negative-h), var(--negative-s), calc(var(--negative-l) - 20%));
+    }
+  }
+}

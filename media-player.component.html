@@ -1,0 +1,93 @@
+<section class="media-player" *ngIf="player && player?.connected && !player?.offline">
+  <section class="now-playing">
+    <!-- <div class="now-playing-header">
+      <img [src]="player.playerData?.playerIconURL" />
+      <span>{{ player.playerData?.playerName }}</span>
+    </div> -->
+    <!-- <img class="now-playing-image" [src]="player.playerData?.albumArtUrl" /> -->
+  </section>
+  <section class="browser" *ngIf="player.browser">
+    <div class="browser-header">
+      <div class="browser-header-container">
+        <button class="browser-back" (click)="player.browser.back()" *ngIf="player.browser.level > 1">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+      <span class="browser-header-title">{{ player.browser.title }}</span>
+      <div class="browser-header-container">
+        <app-spinner *ngIf="player.browser?.busy?.on"></app-spinner>
+      </div>
+    </div>
+    <div class="browser-list">
+      <button class="browser-list-item" *ngFor="let item of player.browser.listItems; let i = index" (click)="player.browser.selectListItem(i)">
+        <img [src]="item.url" *ngIf="item.url !== ''" />
+        <span class="browser-list-item-title">{{ item.title }}</span>
+		<span class="browser-list-item-subtitle">{{ item.subtitle }}</span>
+        <!-- <button class="browser-list-item-action" (click)="player.browser.selectItemAction($event, item)">
+          <i [ngClass]="item.icon"></i>
+        </button> -->
+        <hr />
+      </button>
+    </div>
+    <div class="browser-footer">
+      <button class="browser-action" *ngFor="let action of player.browser.listActions; let i = index" (click)="player.browser.selectListAction(i)">
+        <i [ngClass]="action.icon"></i>
+        <!-- <label class="browser-action-label">{{ action.label }}</label> -->
+      </button>
+    </div>
+  </section>
+  <section class="player-controls" *ngIf="player.playerData">
+    <img class="now-playing-image" [src]="player.playerData.albumArtUrl" />
+    <div class="info-stack">
+      <div class="now-playing-badge-info">
+        <img [src]="player.playerData.playerIconURL" />
+        <span>{{ player.playerData.station }}</span>
+      </div>
+
+      <span class="info-title">{{ player.playerData.album }}</span>
+      <span class="info-title">{{ player.playerData.artist }} - {{ player.playerData.track }}</span>
+      <div class="info-progress" *ngIf="player.playerData.progressBar">
+        <span>{{ player.playerData.toTimeString(player.playerData.elapsedSec) }}</span>
+        <span>{{ player.playerData.toTimeString(player.playerData.trackSec) }}</span>
+      </div>
+      <div class="progress" *ngIf="player.playerData.progressBar && player.playerData.elapsedSec && player.playerData.trackSec">
+        <progress [value]="player.playerData.elapsedSec" [max]="player.playerData.trackSec" *ngIf="player.playerData.progressBar"></progress>
+        <input class="range-style" type="range" min="0" [max]="player.playerData.trackSec" step="1" [value]="player.playerData.elapsedSec" (input)="player.playerData.seek($event)" />
+      </div>
+    </div>
+    <div class="thumbs-stars" (click)="player.playerData.transportCommand($event)">
+      <button class="margin-top" data-command="ThumbsDown" *ngIf="player.playerData.transports['ThumbsDown']">
+        <i class="fas fa-thumbs-down" [ngClass]="{ glow: false }"></i>
+      </button>
+      <button data-command="ThumbsUp" *ngIf="player.playerData.transports['ThumbsUp']">
+        <i class="fas fa-thumbs-up" [ngClass]="{ glow: false }"></i>
+      </button>
+    </div>
+    <div class="transports" (click)="player.playerData.transportCommand($event)">
+      <button class="transports-shuffle" data-command="Shuffle" *ngIf="player.playerData.transports['Shuffle']" [ngClass]="{ glow: player.playerData.shuffleState > 0 }">
+        <i class="fas fa-random"></i>
+      </button>
+      <button class="transports-skipprev" data-command="PreviousTrack" *ngIf="player.playerData.transports['PreviousTrack']">
+        <i class="fas fa-fast-backward"></i>
+      </button>
+      <button data-command="Play" class="transports-playpause large-button" *ngIf="player.playerData.transports['Play'] && (player.playerData.playerState == 'paused' || player.playerData.playerState == 'stopped')">
+        <i class="far fa-circle fa-play-circle"></i>
+      </button>
+      <button data-command="Pause" class="transports-playpause large-button" *ngIf="player.playerData.transports['Pause'] && player.playerData.playerState == 'playing'">
+        <i class="far fa-circle fa-pause-circle"></i>
+      </button>
+
+      <button class="transports-skipnext" data-command="NextTrack" *ngIf="player.playerData.transports['NextTrack']">
+        <i class="fas fa-fast-forward"></i>
+      </button>
+      <button class="transports-repeat" data-command="Repeat" *ngIf="player.playerData.transports['Repeat']" [ngClass]="{ glow: player.playerData.repeatState > 0 }">
+        <i class="fas fa-redo-alt"></i>
+      </button>
+    </div>
+  </section>
+</section>
+<section class="message-window" *ngIf="!player?.connected || player?.offline || player == undefined">
+  <app-spinner></app-spinner><br />
+  <span>{{ player.serverNameInternal }} is Offline</span>
+  <h1>TRYING TO RECONNECT</h1>
+</section>
